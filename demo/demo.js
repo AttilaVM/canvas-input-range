@@ -2,7 +2,7 @@ var range1 = document.getElementById("range1");
 var range2 = document.getElementById("range2");
 var range3 = document.getElementById("range3");
 function cb(v) {
-
+console.log(v);
 };
 
 function loadImg(path) {

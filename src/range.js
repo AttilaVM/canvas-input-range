@@ -1,3 +1,6 @@
+const HORIZONTAL = 0;
+const VERTICAL = 1;
+
 function draw(ctx, img, v) {
 	ctx.drawImage(img, 0, 0);
 }
@@ -28,36 +31,70 @@ export function init(
 
   targetElem.appendChild(canvas);
 
-  let yScale;
-  let xScaleRail;
-  let xScaleKnob;
+  let imgSize = railImg.width;
 
+  let orientation;
+  let railTransform;
+  let knobTransform;
+
+  let xScaleRail;
+  let yScaleRail;
+  let railLength;
   function getSize() {
+
+
 	  canvas.width = targetElem.clientWidth;
 	  canvas.height = targetElem.clientHeight;
 
     width = canvas.width;
     height = canvas.height;
 
-    xScaleRail = width / railImg.width;
-    yScale = height / railImg.height;
+    if (width > height) {
+      orientation = HORIZONTAL;
+      railLength = width - height;
 
-    // ctx.drawImage(railImg, 0, 0);
-    ctx.scale(xScaleRail, yScale);
-    drawRail(ctx, railImg, 0);
-    // ctx.fillStyle = "#000";
-    // ctx.fillRect(0, 0, railImg.width, railImg.height);
+	    xScaleRail = width / imgSize;
+      yScaleRail = height / imgSize;
+      railTransform = function railTransform() {
+        ctx.resetTransform();
+        ctx.scale(xScaleRail, yScaleRail);
+      };
+      railTransform();
+      drawRail(ctx, railImg, 0);
 
-    ctx.resetTransform();
+      knobTransform = function knobTransform(value) {
+        ctx.resetTransform();
+        ctx.translate((width - height) * value, 0);
+        ctx.scale(yScaleRail, yScaleRail);
+      };
+      knobTransform();
+      drawKnob(ctx, knobImg, 0);
+    }
+    else {
+      orientation = VERTICAL;
+      railLength = height - width;
 
-    xScaleKnob = height / knobImg.width;
-    yScale = height / knobImg.height;
+      xScaleRail = width / imgSize;
+      yScaleRail = height / imgSize;
 
+      railTransform = function railTransform() {
+        ctx.resetTransform();
+        ctx.rotate(Math.PI / 2);
+        ctx.translate(0, -width);
+        ctx.scale(yScaleRail, xScaleRail);
+      };
+      railTransform();
+      drawRail(ctx, railImg, 0);
 
-    ctx.scale(xScaleKnob, yScale);
-    drawKnob(ctx, knobImg, 0);
+      knobTransform = function knobTransform(value) {
+        ctx.resetTransform();
+        ctx.translate(0, height - width - (value) * (height - width));
+        ctx.scale(xScaleRail, xScaleRail);
+      };
+      knobTransform(0);
+      drawKnob(ctx, knobImg, 0);
+    }
   }
-
 
   window.addEventListener("resize", getSize);
   getSize();
@@ -69,16 +106,10 @@ export function init(
     else if(rangeValue < 0)
       rangeValue = 0;
 
-    ctx.resetTransform();
-
-    ctx.scale(xScaleRail, yScale);
+    railTransform();
     drawRail(ctx, railImg, rangeValue);
 
-    ctx.resetTransform();
-
-    ctx.resetTransform();
-    ctx.translate((width - height) * rangeValue, 0);
-    ctx.scale(xScaleKnob, yScale);
+    knobTransform(rangeValue);
     drawKnob(ctx, knobImg, rangeValue);
 
     cb(rangeValue);
@@ -86,8 +117,14 @@ export function init(
 
   targetElem.addEventListener("mousedown", (e) => {
 
+    if (e.which !== 1 || "button" in e && e.button !== 0)
+      return;
+
     function mousemove(e) {
-      move(e.clientX / width);
+      if (orientation === HORIZONTAL)
+        move((e.clientX - height) / railLength);
+      else
+        move(1 - (e.clientY - width) / railLength);
     }
 
     function mouseup(e) {
@@ -100,6 +137,32 @@ export function init(
     window.addEventListener("mousemove", mousemove);
     window.addEventListener("mouseup", mouseup);
 
+  });
+
+  targetElem.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+
+    function touchmove(e) {
+      e.preventDefault();
+      if (orientation === HORIZONTAL)
+        move((e.changedTouches[0].clientX - height) / railLength);
+      else
+        move(1 - (e.changedTouches[0].clientY - width) / railLength);
+
+      return false;
+    }
+
+    function touchend(e) {
+      e.preventDefault();
+	    touchmove(e);
+      window.removeEventListener("touchmove", touchmove);
+      window.removeEventListener("touchend", touchend);
+      return false;
+    };
+
+    window.addEventListener("touchmove", touchmove);
+    window.addEventListener("touchend", touchend);
+    return false;
   });
 
   return function changeValue(v) {
