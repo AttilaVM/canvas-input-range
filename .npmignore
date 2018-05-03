@@ -2,7 +2,6 @@
 /.tmp
 **/*~
 **/*#
-**/*.html
 yarn.lock
 demo/range.js
 demo/range.js.map
