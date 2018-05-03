@@ -30,7 +30,7 @@ gulp.task('demo-build', function demoBuildTask() {
   })
     .then((bundle) => {
       return bundle.write({
-      name: "app",
+      name: "range",
       file: "./demo/range.js",
       format: "iife"
       });
@@ -61,7 +61,7 @@ gulp.task('dist-build', function demoBuildTask() {
   })
     .then((bundle) => {
       return bundle.write({
-        name: "app",
+        name: "range",
         file: "./dist/range.min.js",
         format: "iife"
       });

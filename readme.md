@@ -1,6 +1,7 @@
 # HTML Canvas range input.
 
 ## prerequisites
+
 ### Uniform and same image sizes
 
 Both rail and knob image must have uniform scales (they must be a drawn inside a square) and must have the same size.
