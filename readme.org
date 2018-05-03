@@ -1,1 +1,4 @@
-* Framework independent range input
+* HTML Canvas range input.
+
+** Warnings
+When you use SVG the ~preserveAspectRatio~ attribute must be set to "none" on the svg root element. In the absence of the attribute Firefox will default to ~XMidYMid~, which will prevent the non-uniform scaling of your rail image.

@@ -1,0 +1,12 @@
+.range > canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.range {
+  margin: 10px 0 0 0;
+  position: relative;
+  width: 100%;
+  height: 20px;
+}
