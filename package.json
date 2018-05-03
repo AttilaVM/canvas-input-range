@@ -1,9 +1,11 @@
 {
-  "name": "range.js",
-  "version": "0.0.1",
+  "name": "canvas-input-range",
+  "version": "0.1.0",
   "main": "src/range.js",
   "author": "Attila Molnar <ate.molnar2@gmail.com>",
-  "license": "MIT",
+  "license": { "type": "MIT",
+               "url": "https://www.opensource.org/licenses/mit-license.php"
+             },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-preset-es2015": "^6.24.1",
