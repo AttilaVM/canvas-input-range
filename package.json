@@ -6,6 +6,10 @@
   "license": { "type": "MIT",
                "url": "https://www.opensource.org/licenses/mit-license.php"
              },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AttilaVM/canvas-input-range"
+  },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-preset-es2015": "^6.24.1",
