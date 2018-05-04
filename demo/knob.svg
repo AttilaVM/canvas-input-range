@@ -6,24 +6,48 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   width="100"
-   height="100"
-   viewBox="0 0 26.458333 26.458334"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg8"
    version="1.1"
-   id="svg8">
+   viewBox="0 0 26.458333 26.458334"
+   height="100"
+   width="100"
+   sodipodi:docname="knob.svg"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1918"
+     inkscape:window-height="1181"
+     id="namedview10"
+     showgrid="false"
+     inkscape:zoom="2.36"
+     inkscape:cx="-25.635593"
+     inkscape:cy="50"
+     inkscape:window-x="3840"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg8" />
   <defs
      id="defs2">
     <linearGradient
-       id="linearGradient821"
-       osb:paint="gradient">
+       osb:paint="gradient"
+       id="linearGradient821">
       <stop
-         style="stop-color:#e25e5e;stop-opacity:1"
+         id="stop817"
          offset="0"
-         id="stop817" />
+         style="stop-color:#e25e5e;stop-opacity:1" />
       <stop
-         style="stop-color:#129033;stop-opacity:1"
+         id="stop819"
          offset="1"
-         id="stop819" />
+         style="stop-color:#129033;stop-opacity:1" />
     </linearGradient>
   </defs>
   <metadata
@@ -34,19 +58,15 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g
-     style="fill:#ff0000"
-     id="layer1"
-     transform="translate(0,-270.54165)">
-    <circle
-       style="fill:#ff0000;fill-opacity:1;stroke:#f6f6f6;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path884"
-       cx="13.229166"
-       cy="283.77081"
-       r="13.229166" />
-  </g>
+  <rect
+     style="fill:#000000;fill-opacity:0.42081448;stroke:#000000;stroke-width:2.55243543;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="rect817"
+     width="26.458334"
+     height="26.458334"
+     x="0"
+     y="-7.7209332e-09" />
 </svg>

@@ -17,14 +17,14 @@ function loadImg(path) {
 
 Promise.all([loadImg("rail.svg"), loadImg("knob.svg")])
     .then((imgArr) => {
-      app.init(
+      range.init(
         range1,
         cb,
         imgArr[0],
         imgArr[1],
       );
 
-      app.init(
+      range.init(
         range2,
         cb,
         imgArr[0],
@@ -48,7 +48,7 @@ Promise.all([loadImg("rail.svg"), loadImg("knob.svg")])
           }
         });
 
-      const changeValue = app.init(
+      const changeValue = range.init(
         range3,
         cb,
         imgArr[0],
