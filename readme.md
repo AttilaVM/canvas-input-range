@@ -11,7 +11,7 @@ Tiny, fast and easy to use range input based on HTML canvas 2D rendering context
 npm instal --save canvas-input-range
 ```
 
-Or just load [it](https://unpkg.com/canvas-input-range@0.1.5/) from a CDN.
+Or just load [it](https://cdn.jsdelivr.net/npm/canvas-input-range@0.2.0/dist/range.min.js) from a CDN.
 
 2. Define a container for the range input, which will automatically fill it and adapt to horizontal or vertical orientation using its parent aspect ratio.
 3. Define a callback function, which will be invoked on every value change.
