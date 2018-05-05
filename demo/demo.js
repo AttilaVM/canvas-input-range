@@ -2,9 +2,20 @@ var range1 = document.getElementById("range1");
 var range2 = document.getElementById("range2");
 var range3 = document.getElementById("range3");
 
-function cb(v) {
-
+function cb(value, clientPos, targetElem) {
+  targetElem.nextSibling.innerHTML = value;
 };
+
+function isPrime(num) {
+  if (num < 2)
+    return false;
+
+	for (var i = 2; i <= num / 2; i++) {
+    if (num % i === 0)
+      return false;
+  }
+  return true;
+}
 
 function loadImg(path) {
 	const img = document.createElement("img");
@@ -47,6 +58,16 @@ Promise.all([loadImg("rail.svg"), loadImg("knob.svg")])
             ctx.fillStyle = `rgb(${lightness}, ${lightness},${lightness})`;
             ctx.fillRect(0, 0, img.width, img.height);
             ctx.globalCompositeOperation = "source-over";
+          },
+          valueMapping: function (v) {
+	          return Math.round(10 + v * 100);
+          },
+          stepMapping: function (value) {
+	          value = Math.round(10 + value * 100);
+            if (isPrime(value))
+              return (value - 10) / 100;
+            else
+              return null;
           }
         });
 
@@ -56,7 +77,13 @@ Promise.all([loadImg("rail.svg"), loadImg("knob.svg")])
         imgArr[0],
         imgArr[1],
         {
-          doubleClickTimeout: 300
+          doubleClickTimeout: 300,
+          valueMapping: function (value) {
+	          return Math.pow(2, parseInt(value * 10));
+          },
+          stepMapping: function (value) {
+	          return Math.round(value * 10) / 10;
+          }
         }
       );
       changeValue(0.4);

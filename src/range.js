@@ -13,6 +13,11 @@ export function init(
   options = {}) {
 
   const doubleClickTimeout = options.doubleClickTimeout || NaN;
+  const valueMapping = options.valueMapping || NaN;
+  const stepMapping = options.stepMapping || NaN;
+
+  let rangeValue = 0;
+  let clientPos = 0;
 
   let width;
   let height;
@@ -102,12 +107,22 @@ export function init(
   window.addEventListener("resize", getSize);
   getSize();
 
-  function move(rangeValue) {
+  function move(newValue) {
     // Browser wrongfully can trigger a mousemove event just after leaving the targer element so the range value must be clipped.
-	  if (rangeValue > 1)
-      rangeValue = 1;
-    else if(rangeValue < 0)
-      rangeValue = 0;
+	  if (newValue > 1)
+      newValue = 1;
+    else if(newValue < 0)
+      newValue = 0;
+
+    rangeValue = newValue;
+
+    if (stepMapping) {
+      let stepValue = stepMapping(rangeValue);
+      if (stepValue === null)
+        return;
+      else
+        rangeValue = stepValue;
+    }
 
     railTransform();
     drawRail(ctx, railImg, rangeValue);
@@ -115,7 +130,10 @@ export function init(
     knobTransform(rangeValue);
     drawKnob(ctx, knobImg, rangeValue);
 
-    cb(rangeValue);
+    if (valueMapping)
+      cb(valueMapping(rangeValue), clientPos, targetElem);
+    else
+      cb(rangeValue, clientPos, targetElem);
   }
 
   let lastClickTime = NaN;
@@ -145,10 +163,14 @@ export function init(
 
 
     function mousemove(e) {
-      if (orientation === HORIZONTAL)
-        move((e.clientX - height) / railLength + offset);
-      else
-        move(1 - (e.clientY - width) / railLength + offset);
+      if (orientation === HORIZONTAL) {
+        clientPos = e.clientX;
+        move((clientPos - height) / railLength + offset);
+      }
+      else {
+        clientPos = e.clientY;
+        move(1 - (clientPos - width) / railLength + offset);
+      }
     }
 
     function wheel(e) {
@@ -158,7 +180,7 @@ export function init(
       e.preventDefault();
       console.log(e.deltaY);
 
-      offset += e.deltaY / Math.abs(e.deltaY) / 100;
+      offset += e.deltaY / Math.abs(e.deltaY) / 200;
       console.log(e.clientX);
       mousemove(e);
     }
