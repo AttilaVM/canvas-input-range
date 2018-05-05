@@ -1,8 +1,9 @@
 var range1 = document.getElementById("range1");
 var range2 = document.getElementById("range2");
 var range3 = document.getElementById("range3");
+
 function cb(v) {
-console.log(v);
+
 };
 
 function loadImg(path) {
@@ -30,6 +31,7 @@ Promise.all([loadImg("rail.svg"), loadImg("knob.svg")])
         imgArr[0],
         imgArr[1],
         {
+          doubleClickTimeout: 300,
           drawRail: function (ctx, img, v) {
 	          ctx.drawImage(img, 0, 0);
             ctx.globalCompositeOperation = "lighter";
@@ -53,6 +55,9 @@ Promise.all([loadImg("rail.svg"), loadImg("knob.svg")])
         cb,
         imgArr[0],
         imgArr[1],
+        {
+          doubleClickTimeout: 300
+        }
       );
       changeValue(0.4);
     })

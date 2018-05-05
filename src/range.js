@@ -11,6 +11,9 @@ export function init(
   railImg,
   knobImg,
   options = {}) {
+
+  const doubleClickTimeout = options.doubleClickTimeout || NaN;
+
   let width;
   let height;
 
@@ -115,27 +118,65 @@ export function init(
     cb(rangeValue);
   }
 
+  let lastClickTime = NaN;
+  let selected = false;
+  let offset = 0;
   targetElem.addEventListener("mousedown", (e) => {
 
     if (e.which !== 1 || "button" in e && e.button !== 0)
       return;
 
+    let time = Date.now();
+    if (time - lastClickTime < doubleClickTimeout) {
+      if (!selected) {
+        selected = true;
+      }
+      else {
+        selected = false;
+        offset = 0;
+      }
+
+      lastClickTime = NaN;
+      console.log(selected);
+    }
+    else {
+      lastClickTime = time;
+    }
+
+
     function mousemove(e) {
       if (orientation === HORIZONTAL)
-        move((e.clientX - height) / railLength);
+        move((e.clientX - height) / railLength + offset);
       else
-        move(1 - (e.clientY - width) / railLength);
+        move(1 - (e.clientY - width) / railLength + offset);
+    }
+
+    function wheel(e) {
+      if (!selected)
+        return;
+
+      e.preventDefault();
+      console.log(e.deltaY);
+
+      offset += e.deltaY / Math.abs(e.deltaY) / 100;
+      console.log(e.clientX);
+      mousemove(e);
     }
 
     function mouseup(e) {
+      if (selected)
+        return;
+
 	    mousemove(e);
       window.removeEventListener("mousemove", mousemove);
       window.removeEventListener("mouseup", mouseup);
+      window.removeEventListener("wheel", wheel);
     };
 
 
     window.addEventListener("mousemove", mousemove);
     window.addEventListener("mouseup", mouseup);
+    targetElem.addEventListener("wheel", wheel);
 
   });
 
