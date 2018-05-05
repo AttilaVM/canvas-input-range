@@ -67,3 +67,7 @@ gulp.task('dist-build', function demoBuildTask() {
       });
     });
 });
+
+gulp.task("default", function defaultTask() {
+  gulp.watch(["./src/*"], ["demo-build"]);
+});
