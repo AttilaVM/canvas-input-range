@@ -19,6 +19,28 @@ body {
   transform: rotate(3.14159265359rad);
 }
 
+.box {
+  position: relative;
+  width: 500px;
+  height: 500px;
+}
+
+#range-h {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 480px;
+  height: 20px;
+}
+
+#range-v {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 480px;
+}
+
 @media (max-aspect-ratio: 1/1) {
   .range {
     display: inline-block;
