@@ -9,7 +9,7 @@ const uglify = require('rollup-plugin-uglify');
 
 gulp.task('demo-build', function demoBuildTask() {
 	return rollup.rollup({
-    input: "src/range.js",
+    input: "src/index.js",
   plugins: [
     eslint({
       exclude: [
@@ -30,8 +30,8 @@ gulp.task('demo-build', function demoBuildTask() {
   })
     .then((bundle) => {
       return bundle.write({
-      name: "range",
-      file: "./demo/range.js",
+      name: "gui",
+      file: "./demo/compose.gui.js",
       format: "iife"
       });
     });
@@ -61,13 +61,13 @@ gulp.task('dist-build', function demoBuildTask() {
   })
     .then((bundle) => {
       return bundle.write({
-        name: "range",
-        file: "./dist/range.min.js",
+        name: "gui",
+        file: "./dist/compose.gui.min.js",
         format: "iife"
       });
     });
 });
 
 gulp.task("default", function defaultTask() {
-  gulp.watch(["./src/*"], ["demo-build"]);
+  gulp.watch(["./src/**/*"], ["demo-build"]);
 });

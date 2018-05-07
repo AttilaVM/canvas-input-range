@@ -31,14 +31,14 @@ function loadImg(path) {
 
 Promise.all([loadImg("rail.svg"), loadImg("knob.svg")])
   .then((imgArr) => {
-    range.init(
+    gui.range(
       range1,
       cb,
       imgArr[0],
       imgArr[1],
     );
 
-    range.init(
+    gui.range(
       range2,
       cb,
       imgArr[0],
@@ -73,7 +73,7 @@ Promise.all([loadImg("rail.svg"), loadImg("knob.svg")])
         }
       });
 
-    const changeValue = range.init(
+    const changeValue = gui.range(
       range3,
       cb,
       imgArr[0],
@@ -90,7 +90,7 @@ Promise.all([loadImg("rail.svg"), loadImg("knob.svg")])
     );
     changeValue(0.4);
 
-    range.init(
+    gui.range(
       rangeH,
       cb,
       imgArr[0],
@@ -98,7 +98,7 @@ Promise.all([loadImg("rail.svg"), loadImg("knob.svg")])
       {doubleClickTimeout: 300}
     );
 
-    range.init(
+    gui.range(
       rangeV,
       cb,
       imgArr[0],

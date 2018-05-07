@@ -4,6 +4,6 @@
 **/*~
 **/*#
 yarn.lock
-demo/range.js
-demo/range.js.map
+demo/compose.gui.js
+demo/compose.gui.min.js
 yarn-error.log
