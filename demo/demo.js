@@ -110,3 +110,28 @@ Promise.all([loadImg("rail.svg"), loadImg("knob.svg")])
   .catch((err) => {
     console.error(err);
   });
+
+
+// SVG animation
+
+function loadSvg(url) {
+  const xhr = new XMLHttpRequest();
+  const promise = new Promise((resolve, reject) => {
+    xhr.onload = () => {
+      const content = xhr.responseXML.documentElement;
+      resolve(content);
+    };
+    xhr.onerror = () => reject(xhr.statusText);
+  });
+  xhr.open("GET", url);
+  xhr.send();
+  return promise;
+}
+
+const hedgehog = document.getElementById("hedgehog");
+
+loadSvg("https://cdn.rawgit.com/firstzsuzsi/5f055d67330feb66cdb14da5f7857876/raw/5539b2b4ab20a3d3b7eb560da08c48edd97b2063/hedgehog.svg")
+  .then(function (svg) {
+	  gui.svganim(hedgehog, svg, ["d"], 3000, "layer");
+  })
+  .catch(function (err) { console.error(err);});

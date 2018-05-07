@@ -25,6 +25,12 @@ body {
   height: 500px;
 }
 
+.hog {
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+}
+
 #range-h {
   position: absolute;
   bottom: 0;
