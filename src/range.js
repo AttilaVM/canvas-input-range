@@ -17,7 +17,7 @@ export function init(
   const stepMapping = options.stepMapping || NaN;
 
   let rangeValue = 0;
-  let clientPos = 0;
+  let localPos = 0;
 
   let width;
   let height;
@@ -45,11 +45,15 @@ export function init(
   let railTransform;
   let knobTransform;
 
+  let leftPos;
+  let topPos;
   let xScaleRail;
   let yScaleRail;
   let railLength;
   function getSize() {
-
+    const boundingRect = targetElem.getBoundingClientRect();
+    leftPos = boundingRect.x;
+    topPos = boundingRect.y;
 
 	  canvas.width = targetElem.clientWidth;
 	  canvas.height = targetElem.clientHeight;
@@ -131,9 +135,9 @@ export function init(
     drawKnob(ctx, knobImg, rangeValue);
 
     if (valueMapping)
-      cb(valueMapping(rangeValue), clientPos, targetElem);
+      cb(valueMapping(rangeValue), localPos, targetElem);
     else
-      cb(rangeValue, clientPos, targetElem);
+      cb(rangeValue, localPos, targetElem);
   }
 
   let lastClickTime = NaN;
@@ -164,12 +168,12 @@ export function init(
 
     function mousemove(e) {
       if (orientation === HORIZONTAL) {
-        clientPos = e.clientX;
-        move((clientPos - height) / railLength + offset);
+        localPos = e.clientX - leftPos;
+        move((localPos - height) / railLength + offset);
       }
       else {
-        clientPos = e.clientY;
-        move(1 - (clientPos - width) / railLength + offset);
+        localPos = e.clientY - topPos;
+        move(1 - (localPos - width) / railLength + offset);
       }
     }
 
@@ -207,10 +211,14 @@ export function init(
 
     function touchmove(e) {
       e.preventDefault();
-      if (orientation === HORIZONTAL)
-        move((e.changedTouches[0].clientX - height) / railLength);
-      else
-        move(1 - (e.changedTouches[0].clientY - width) / railLength);
+      if (orientation === HORIZONTAL) {
+        localPos = e.changedTouches[0].clientX - leftPos;
+        move((localPos - height) / railLength);
+      }
+      else {
+        localPos = e.changedTouches[0].clientY - topPos;
+        move(1 - (localPos - width) / railLength);
+      }
 
       return false;
     }
@@ -231,5 +239,4 @@ export function init(
   return function changeValue(v) {
     move(v);
   };
-
 }
