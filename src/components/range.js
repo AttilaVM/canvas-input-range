@@ -18,6 +18,9 @@ export function range(
 
   let rangeValue = 0;
   let localPos = 0;
+  let selected = false;
+  let lastClickTime = NaN;
+  let offset = 0;
 
   let width;
   let height;
@@ -140,33 +143,7 @@ export function range(
       cb(rangeValue, localPos, targetElem);
   }
 
-  let lastClickTime = NaN;
-  let selected = false;
-  let offset = 0;
-  targetElem.addEventListener("mousedown", (e) => {
-
-    if (e.which !== 1 || "button" in e && e.button !== 0)
-      return;
-
-    let time = Date.now();
-    if (time - lastClickTime < doubleClickTimeout) {
-      if (!selected) {
-        selected = true;
-      }
-      else {
-        selected = false;
-        offset = 0;
-      }
-
-      lastClickTime = NaN;
-      console.log(selected);
-    }
-    else {
-      lastClickTime = time;
-    }
-
-
-    function mousemove(e) {
+  function mousemove(e) {
       if (orientation === HORIZONTAL) {
         localPos = e.clientX - leftPos;
         move((localPos - height) / railLength + offset);
@@ -199,12 +176,39 @@ export function range(
       window.removeEventListener("wheel", wheel);
     };
 
+  function mousedown(e) {
+
+    if (e.which !== 1 || "button" in e && e.button !== 0)
+      return;
+
+    let time = Date.now();
+    if (time - lastClickTime < doubleClickTimeout) {
+      if (!selected) {
+        selected = true;
+      }
+      else {
+        selected = false;
+        offset = 0;
+      }
+
+      lastClickTime = NaN;
+      console.log(selected);
+    }
+    else {
+      lastClickTime = time;
+    }
+
+
+
+
 
     window.addEventListener("mousemove", mousemove);
     window.addEventListener("mouseup", mouseup);
     targetElem.addEventListener("wheel", wheel);
 
-  });
+  }
+
+  targetElem.addEventListener("mousedown", (e) => {});
 
   targetElem.addEventListener("touchstart", (e) => {
     e.preventDefault();
@@ -236,7 +240,25 @@ export function range(
     return false;
   });
 
-  return function changeValue(v) {
-    move(v);
+  const ctrl = {
+    changeValue: function changeValue(v) {
+      move(v);
+    },
+    selection: function selection(selectChange) {
+      if (selectChange === true) {
+        selected = selectChange;
+        mousedown({clientX: 0, clientY: 0, which: 1, button: 0});
+      }
+      else if (selectChange === false) {
+        selected = selectChange;
+        mouseup({clientX: 0, clientY: 0, which: 1, button: 0});
+      }
+      else {
+        console.errot(`${selectChange} is not a boolean, required for change selection state`);
+      }
+
+    }
   };
+
+  return ctrl;
 }

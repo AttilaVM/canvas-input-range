@@ -7,3 +7,4 @@ yarn.lock
 demo/compose.gui.js
 demo/compose.gui.min.js
 yarn-error.log
+assets

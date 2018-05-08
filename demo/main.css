@@ -8,6 +8,10 @@ body {
   top: 0;
 }
 
+.hide {
+  display: none;
+}
+
 .range {
   margin: 10px 0 0 0;
   position: relative;
@@ -47,7 +51,62 @@ body {
   height: 480px;
 }
 
+#chain {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+}
+
+#chain > svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+#button {
+  position: relative;
+  width: 500px;
+  height: 500px;
+}
+
+#button > svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+#hamburger1 {
+  transition: transform 0.4s;
+}
+
+#hamburger2 {
+  transition: transform 0.4s;
+}
+
+.scaleUp {
+  transform-origin: 50% 250%;
+  transform: scale(1.2, 1.2);
+}
+
+.rotateLeft {
+  transform-origin: 50% 250%;
+  transform: rotate(45deg);
+}
+
+.rotateRight {
+  transform-origin: 50% 250%;
+  transform: rotate(-45deg);
+}
+
+
 @media (max-aspect-ratio: 1/1) {
+
+  p {
+    display: none;
+  }
+
   .range {
     display: inline-block;
     margin: 0 0 0 30px;

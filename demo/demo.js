@@ -31,18 +31,20 @@ function loadImg(path) {
 
 Promise.all([loadImg("rail.svg"), loadImg("knob.svg")])
   .then((imgArr) => {
+    const railSvg = imgArr[0];
+    const knobSvg = imgArr[1];
     gui.range(
       range1,
       cb,
-      imgArr[0],
-      imgArr[1],
+      railSvg,
+      knobSvg,
     );
 
     gui.range(
       range2,
       cb,
-      imgArr[0],
-      imgArr[1],
+      railSvg,
+      knobSvg,
       {
         doubleClickTimeout: 300,
         drawRail: function (ctx, img, v) {
@@ -73,11 +75,11 @@ Promise.all([loadImg("rail.svg"), loadImg("knob.svg")])
         }
       });
 
-    const changeValue = gui.range(
+    const ctrl = gui.range(
       range3,
       cb,
-      imgArr[0],
-      imgArr[1],
+      railSvg,
+      knobSvg,
       {
         doubleClickTimeout: 300,
         valueMapping: function (value) {
@@ -88,23 +90,63 @@ Promise.all([loadImg("rail.svg"), loadImg("knob.svg")])
         }
       }
     );
-    changeValue(0.4);
+    ctrl.changeValue(0.4);
 
-    gui.range(
+    const ctrlH = gui.range(
       rangeH,
       cb,
-      imgArr[0],
-      imgArr[1],
+      railSvg,
+      knobSvg,
       {doubleClickTimeout: 300}
     );
 
-    gui.range(
+    const ctrlV = gui.range(
       rangeV,
       cb,
-      imgArr[0],
-      imgArr[1],
+      railSvg,
+      knobSvg,
       {doubleClickTimeout: 300}
     );
+
+    loadSvg("https://rawgit.com/AttilaVM/465959c9d5a2ed9261fbee3c2333dabc/raw/0b20a90c132cb45d85191ca5004ddbe704e6f619/chain.svg")
+      .then((svg) => {
+        let state = 0;
+        const chainBox = document.getElementById("chain");
+        gui.button.attachButton(
+          svg,
+          chainBox,
+          {subElementIds: ["joined", "disjunct"],
+           preMount(subElements, svg) {
+             subElements.joined.classList.add("hide");
+             subElements.disjunct.classList.remove("hide");
+           },
+           onMouseDown(e, subElements, svg) {
+	           // subElements.joined.classList.add("scaleUp");
+	           // subElements.disjunct.classList.add("scaleUp");
+           },
+           onMouseUp(e, subElements, svg) {
+
+             // subElements.joined.classList.remove("scaleUp");
+	           // subElements.disjunct.classList.remove("scaleUp");
+
+             if (state === 0) {
+               state = 1;
+               subElements.joined.classList.remove("hide");
+               subElements.disjunct.classList.add("hide");
+               ctrlH.selection(true);
+               ctrlV.selection(true);
+             }
+             else {
+               state = 0;
+               subElements.disjunct.classList.remove("hide");
+               subElements.joined.classList.add("hide");
+               ctrlH.selection(false);
+               ctrlV.selection(false);
+             }
+           }
+          }
+        );
+      });
 
   })
   .catch((err) => {
@@ -135,3 +177,36 @@ loadSvg("https://cdn.rawgit.com/firstzsuzsi/5f055d67330feb66cdb14da5f7857876/raw
 	  gui.svganim(hedgehog, svg, ["d"], 3000, "layer");
   })
   .catch(function (err) { console.error(err);});
+
+// Buttons
+
+loadSvg("https://rawgit.com/AttilaVM/465959c9d5a2ed9261fbee3c2333dabc/raw/0b20a90c132cb45d85191ca5004ddbe704e6f619/button.svg")
+  .then((svg) => {
+    let state = 0;
+    const button = document.getElementById("button");
+    gui.button.attachButton(
+      svg,
+      button,
+      {subElementIds: ["hamburger1", "hamburger2"],
+       onMouseDown: function (e, subElements, svg) {
+
+	       subElements.hamburger1.classList.add("scaleUp");
+       },
+       onMouseUp: function (e, subElements, svg) {
+
+         subElements.hamburger1.classList.remove("scaleUp");
+         // subElements.hamburger2.classList.remove("scaleUp");
+         if (state === 0) {
+           state = 1;
+           subElements.hamburger1.classList.add("rotateLeft");
+           subElements.hamburger2.classList.add("rotateRight");
+         }
+         else {
+           state = 0;
+           subElements.hamburger1.classList.remove("rotateLeft");
+	         subElements.hamburger2.classList.remove("rotateRight");
+         }
+       }
+      }
+    );
+  });
