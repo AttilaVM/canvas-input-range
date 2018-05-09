@@ -39,7 +39,7 @@ gulp.task('demo-build', function demoBuildTask() {
 
 gulp.task('dist-build', function demoBuildTask() {
 	return rollup.rollup({
-    input: "src/range.js",
+    input: "src/index.js",
     plugins: [
       uglify(),
     eslint({

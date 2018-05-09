@@ -167,7 +167,7 @@ export function range(
     }
 
     function mouseup(e) {
-      if (selected)
+      if (selected && doubleClickTimeout !== doubleClickTimeout)
         return;
 
 	    mousemove(e);
@@ -177,6 +177,8 @@ export function range(
     };
 
   function mousedown(e) {
+
+    console.log(e);
 
     if (e.which !== 1 || "button" in e && e.button !== 0)
       return;
@@ -198,17 +200,13 @@ export function range(
       lastClickTime = time;
     }
 
-
-
-
-
     window.addEventListener("mousemove", mousemove);
     window.addEventListener("mouseup", mouseup);
     targetElem.addEventListener("wheel", wheel);
 
   }
-
-  targetElem.addEventListener("mousedown", (e) => {});
+;
+  targetElem.addEventListener("mousedown", mousedown);
 
   targetElem.addEventListener("touchstart", (e) => {
     e.preventDefault();
@@ -254,7 +252,7 @@ export function range(
         mouseup({clientX: 0, clientY: 0, which: 1, button: 0});
       }
       else {
-        console.errot(`${selectChange} is not a boolean, required for change selection state`);
+        console.error(`${selectChange} is not a boolean, required for change selection state`);
       }
 
     }
