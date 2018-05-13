@@ -1,3 +1,5 @@
+[![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
+
 # HTML Canvas range input.
 
 Tiny, fast and easy to use range input based on HTML canvas 2D rendering context with 0 runtime dependency. This project is very young and has not been tested on a wide range of browsers yet.
