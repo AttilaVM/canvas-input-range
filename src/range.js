@@ -5,7 +5,7 @@ function draw(ctx, img, v) {
 	ctx.drawImage(img, 0, 0);
 }
 
-export function range(
+export function init(
   targetElem,
   cb,
   railImg,

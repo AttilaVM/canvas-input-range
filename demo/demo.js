@@ -33,14 +33,14 @@ Promise.all([loadImg("rail.svg"), loadImg("knob.svg")])
   .then((imgArr) => {
     const railSvg = imgArr[0];
     const knobSvg = imgArr[1];
-    gui.range(
+    range.init(
       range1,
       cb,
       railSvg,
       knobSvg,
     );
 
-    gui.range(
+    range.init(
       range2,
       cb,
       railSvg,
@@ -75,7 +75,7 @@ Promise.all([loadImg("rail.svg"), loadImg("knob.svg")])
         }
       });
 
-    const ctrl = gui.range(
+    const ctrl = range.init(
       range3,
       cb,
       railSvg,
@@ -92,14 +92,14 @@ Promise.all([loadImg("rail.svg"), loadImg("knob.svg")])
     );
     ctrl.changeValue(0.4);
 
-    const ctrlH = gui.range(
+    const ctrlH = range.init(
       rangeH,
       cb,
       railSvg,
       knobSvg,
     );
 
-    const ctrlV = gui.range(
+    const ctrlV = range.init(
       rangeV,
       cb,
       railSvg,
