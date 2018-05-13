@@ -97,7 +97,6 @@ Promise.all([loadImg("rail.svg"), loadImg("knob.svg")])
       cb,
       railSvg,
       knobSvg,
-      {doubleClickTimeout: 300}
     );
 
     const ctrlV = gui.range(
@@ -105,108 +104,51 @@ Promise.all([loadImg("rail.svg"), loadImg("knob.svg")])
       cb,
       railSvg,
       knobSvg,
-      {doubleClickTimeout: 300}
     );
+
+    function loadSvg(url) {
+      const xhr = new XMLHttpRequest();
+      const promise = new Promise((resolve, reject) => {
+        xhr.onload = () => {
+          const content = xhr.responseXML.documentElement;
+          resolve(content);
+        };
+        xhr.onerror = () => reject(xhr.statusText);
+      });
+      xhr.open("GET", url);
+      xhr.send();
+      return promise;
+    }
 
     loadSvg("https://rawgit.com/AttilaVM/465959c9d5a2ed9261fbee3c2333dabc/raw/0b20a90c132cb45d85191ca5004ddbe704e6f619/chain.svg")
       .then((svg) => {
-        let state = 0;
         const chainBox = document.getElementById("chain");
-        gui.button.attachButton(
-          svg,
-          chainBox,
-          {subElementIds: ["joined", "disjunct"],
-           preMount(subElements, svg) {
-             subElements.joined.classList.add("hide");
-             subElements.disjunct.classList.remove("hide");
-           },
-           onMouseDown(e, subElements, svg) {
-	           // subElements.joined.classList.add("scaleUp");
-	           // subElements.disjunct.classList.add("scaleUp");
-           },
-           onMouseUp(e, subElements, svg) {
+        const joinedIcon = svg.getElementById("joined");
+        const disjunctIcon = svg.getElementById("disjunct");
 
-             // subElements.joined.classList.remove("scaleUp");
-	           // subElements.disjunct.classList.remove("scaleUp");
+        joinedIcon.classList.add("hide");
+        chainBox.appendChild(svg);
 
-             if (state === 0) {
+        let state = 0;
+        svg.addEventListener("mouseup", function () {
+	        if (state === 0) {
                state = 1;
-               subElements.joined.classList.remove("hide");
-               subElements.disjunct.classList.add("hide");
+               joinedIcon.classList.remove("hide");
+               disjunctIcon.classList.add("hide");
                ctrlH.selection(true);
                ctrlV.selection(true);
              }
              else {
                state = 0;
-               subElements.disjunct.classList.remove("hide");
-               subElements.joined.classList.add("hide");
+               disjunctIcon.classList.remove("hide");
+               joinedIcon.classList.add("hide");
                ctrlH.selection(false);
                ctrlV.selection(false);
              }
-           }
-          }
-        );
+        });
       });
 
   })
   .catch((err) => {
     console.error(err);
-  });
-
-
-// SVG animation
-
-function loadSvg(url) {
-  const xhr = new XMLHttpRequest();
-  const promise = new Promise((resolve, reject) => {
-    xhr.onload = () => {
-      const content = xhr.responseXML.documentElement;
-      resolve(content);
-    };
-    xhr.onerror = () => reject(xhr.statusText);
-  });
-  xhr.open("GET", url);
-  xhr.send();
-  return promise;
-}
-
-const hedgehog = document.getElementById("hedgehog");
-
-loadSvg("https://cdn.rawgit.com/firstzsuzsi/5f055d67330feb66cdb14da5f7857876/raw/5539b2b4ab20a3d3b7eb560da08c48edd97b2063/hedgehog.svg")
-  .then(function (svg) {
-	  gui.svganim(hedgehog, svg, ["d"], 3000, "layer");
-  })
-  .catch(function (err) { console.error(err);});
-
-// Buttons
-
-loadSvg("https://rawgit.com/AttilaVM/465959c9d5a2ed9261fbee3c2333dabc/raw/0b20a90c132cb45d85191ca5004ddbe704e6f619/button.svg")
-  .then((svg) => {
-    let state = 0;
-    const button = document.getElementById("button");
-    gui.button.attachButton(
-      svg,
-      button,
-      {subElementIds: ["hamburger1", "hamburger2"],
-       onMouseDown: function (e, subElements, svg) {
-
-	       subElements.hamburger1.classList.add("scaleUp");
-       },
-       onMouseUp: function (e, subElements, svg) {
-
-         subElements.hamburger1.classList.remove("scaleUp");
-         // subElements.hamburger2.classList.remove("scaleUp");
-         if (state === 0) {
-           state = 1;
-           subElements.hamburger1.classList.add("rotateLeft");
-           subElements.hamburger2.classList.add("rotateRight");
-         }
-         else {
-           state = 0;
-           subElements.hamburger1.classList.remove("rotateLeft");
-	         subElements.hamburger2.classList.remove("rotateRight");
-         }
-       }
-      }
-    );
   });

@@ -1,10 +1,9 @@
 /node_modules
 /dist
-/.tmp
+/.tmphh
 **/*~
 **/*#
 yarn.lock
-demo/compose.gui.js
-demo/compose.gui.min.js
 yarn-error.log
 assets
+/demo/range.js
