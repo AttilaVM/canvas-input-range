@@ -68,6 +68,12 @@ gulp.task('dist-build', function demoBuildTask() {
     });
 });
 
+gulp.task('copy-devcode', function copyDevcodeTask() {
+	return gulp.src("./demo/range.js")
+    .pipe(gulp.dest("./dist"));
+});
+
 gulp.task("default", function defaultTask() {
   gulp.watch(["./src/**/*"], ["demo-build", "dist-build"]);
+  gulp.watch(["./demo/range.js"], ["copy-devcode"]);
 });
