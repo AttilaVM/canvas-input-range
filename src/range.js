@@ -72,14 +72,14 @@ export function init(
 	    xScaleRail = width / imgSize;
       yScaleRail = height / imgSize;
       railTransform = function railTransform() {
-        ctx.resetTransform();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.scale(xScaleRail, yScaleRail);
       };
       railTransform();
       drawRail(ctx, railImg, 0);
 
       knobTransform = function knobTransform(value) {
-        ctx.resetTransform();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.translate((width - height) * value, 0);
         ctx.scale(yScaleRail, yScaleRail);
       };
@@ -94,7 +94,7 @@ export function init(
       yScaleRail = height / imgSize;
 
       railTransform = function railTransform() {
-        ctx.resetTransform();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.rotate(Math.PI / 2);
         ctx.translate(0, -width);
         ctx.scale(yScaleRail, xScaleRail);
@@ -103,7 +103,7 @@ export function init(
       drawRail(ctx, railImg, 0);
 
       knobTransform = function knobTransform(value) {
-        ctx.resetTransform();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.translate(0, height - width - (value) * (height - width));
         ctx.scale(xScaleRail, xScaleRail);
       };
