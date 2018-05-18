@@ -58,8 +58,8 @@ export function init(
   let railLength;
   function getSize() {
     const boundingRect = targetElem.getBoundingClientRect();
-    leftPos = boundingRect.x;
-    topPos = boundingRect.y;
+    leftPos = boundingRect.left;
+    topPos = boundingRect.top;
 
 	  canvas.width = targetElem.clientWidth;
 	  canvas.height = targetElem.clientHeight;
