@@ -15,6 +15,7 @@ export function init(
   const doubleClickTimeout = options.doubleClickTimeout || NaN;
   const valueMapping = options.valueMapping || NaN;
   const stepMapping = options.stepMapping || NaN;
+  const alpha = options.alpha === undefined ? true : options.alpha;
 
   let rangeValue = 0;
   let localPos = 0;
@@ -26,7 +27,7 @@ export function init(
   let height;
 
   const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d", { alpha: alpha });
 
   let drawRail;
   if (options.drawRail)
@@ -131,7 +132,11 @@ export function init(
         rangeValue = stepValue;
     }
 
+
     railTransform();
+    // When a transparent rail image is used the canvas should be cleared before every re-paint to avoid alpha channel saturation
+    if (alpha)
+      ctx.clearRect(0, 0, railImg.width, railImg.height);
     drawRail(ctx, railImg, rangeValue);
 
     knobTransform(rangeValue);
