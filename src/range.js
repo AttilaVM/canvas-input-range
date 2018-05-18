@@ -27,6 +27,7 @@ export function init(
   let height;
 
   const canvas = document.createElement("canvas");
+  canvas.setAttribute("draggable", "false");
   canvas.width = targetElem.clientWidth;
 	canvas.height = targetElem.clientHeight;
   const ctx = canvas.getContext("2d", { alpha: alpha });

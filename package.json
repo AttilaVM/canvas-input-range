@@ -1,6 +1,6 @@
 {
   "name": "canvas-input-range",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "main": "src/range.js",
   "author": "Attila Molnar <ate.molnar2@gmail.com>",
   "license": { "type": "MIT",
